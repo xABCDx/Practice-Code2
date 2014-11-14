@@ -1,0 +1,138 @@
+int x;
+int y;
+int sz;
+int speedx=4;
+int speedy=4;
+int rw=20;
+int rh=50;
+int rightx;
+int righty;
+int lw = -rw;
+int lh = -rh;
+int leftx;
+int lefty;
+int LScore = 0;
+int RScore = 0;
+
+void setup() {
+  size(700, 500); 
+  x=width/2;
+  y=height/2;
+  sz=20;
+  rightx = width-30;
+  righty = height/2;
+
+}
+
+void draw() {
+  background(0);
+  leftx = 30;
+  lefty = mouseY;
+  
+ //arena
+ stroke(0,255,0);
+ strokeWeight(5);
+ line(width/2, 0, width/2, height);
+ fill(0);
+ ellipse(width/2, height/2, 100, 100);
+ ellipse(0, height/2, width/2, height);
+ ellipse(width, height/2, width/2, height);
+ 
+  //left paddle
+  fill(255,0,0);
+  strokeWeight(1);
+  stroke(255,0,0);
+  rect(leftx, lefty, rw, rh);
+ 
+  //right paddle
+  fill(0,0,255);
+  strokeWeight(1);
+  stroke(0,0,255);
+  rect(rightx, righty, lw, lh);
+
+  if (keyPressed) {
+    if (key==CODED) {
+      if (keyCode==UP) {
+        righty = righty-10;
+      
+      }
+      if(keyCode==DOWN){
+       righty = righty+10; 
+   
+      }
+    }
+  }
+ 
+  //ball
+  fill(0, 255, 0);
+  strokeWeight(1);
+  stroke(0,255,0);
+  ellipse(x, y, sz, sz);
+  x=x+speedx;
+  y=y+speedy;
+
+  //ball reset
+  if(x-sz/2 < 0){
+   x = width/2;
+   y = height/2;
+   speedx = 4;
+   speedy = 4;
+     }
+   
+  if(x+sz/2 > width){
+    x = width/2;
+    y = height/2;
+    speedx*=-1;
+    speedy*=-1;
+      }
+ 
+  
+  
+  //ball bouncing off borders
+  if (x-sz/2 < 0 || x+sz/2 >width) {
+    speedx*=-1;
+  }
+
+  if (y+sz/2 > height || y-sz/2 < 0) {
+    speedy*=-1;
+  }
+
+  //ball bouncing off left paddle
+  if (x-sz/2 < leftx+rw && y+sz/2 < lefty+rh && y-sz/2 > lefty) {
+    speedx*=-1;
+    speedy*=-1;
+  }
+  
+  //ball bouncing off right paddle
+  if(x+sz/2 > rightx+lw && y+sz/2 > righty+lh+lw && y-sz/2 < righty+lw){
+    speedx*=-1;
+    speedy*=-1;
+  }
+ 
+
+//score board
+ textSize(25);
+ textAlign(CENTER);
+ text("SCORE", 250, 35);
+ //left score
+ textSize(25);
+ textAlign(CENTER);
+ text(LScore, 180, 35);
+ if(x+sz/2 >= width){
+  LScore += 1; 
+ }
+ //right score
+ textSize(25);
+ textAlign(CENTER);
+ text(RScore, 320, 35);
+ if(x-sz/2 <= 0){
+  RScore += 1; 
+ }
+
+ if(RScore == 7 || LScore == 7){
+  RScore = 0;
+  LScore = 0;
+ }
+
+  
+}

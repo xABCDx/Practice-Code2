@@ -1,0 +1,17 @@
+float[] quadratic(float a, float b, float c) {
+ float[] results = new float [5];
+ results[0] = a;
+ results[1] = b;
+ results[2] = c;
+ results[3] = (-b + sqrt(sq(b) - 4*a*c));
+ results[4] = (-b - sqrt(sq(b) - 4*a*c));
+ return results;
+} 
+
+void setup(){
+  
+}
+
+void draw(){
+  println(quadratic(1,5,1));
+}
