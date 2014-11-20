@@ -1,47 +1,56 @@
-PVector loc, vel, acc;
-PVector loc2, vel2, acc2;
-int sz = 50;
-int sz2 = 150;
+
+int count = 50;
+PVector[] loc = new PVector[count];
+PVector[] vel = new PVector[count];
+PVector[] acc = new PVector[count];
+float[] sz = new float[count];
 
 
 void setup() {
   size(700, 500); 
   //initializing loc, vel, acc
-  loc = new PVector(width/2, height/2);
-  vel = PVector.random2D();
-  acc = new PVector(0, 0);
-  loc2 = new PVector(width *.25, height *.25);
-  vel2 = PVector.random2D();
-  acc2 = new PVector(0,0);
+  for(int i = 0; i < count; i++){
+   sz[i] = random(10,50);
+   loc[i] = new PVector(random(sz[i], width - sz[i]), random(sz[i], height - sz[i]));
+   vel[i] = PVector.random2D();
+   acc[i] = new PVector(0,0);
+  }
 }
 
 
 void draw() {
   background(0);
-
-  //move the balls
-  vel.add(acc);
-  loc.add(vel);
-  vel2.add(acc2);
-  loc2.add(vel2);
-
-  //check to see if the circles are touching
-  if (loc.dist(loc2) < sz/2 + sz2/2) {
-    if(loc.x < loc2.x){
-    vel.x = -abs(vel.x);
-    vel2.x = abs(vel2.x);
-  } else {
-    vel.x = abs(vel.x);
-    vel2.x = -abs(vel2.x);
+ 
+  
+  //move the ball
+  for(int i = 0; i < count; i++){
+    vel[i].add(acc[i]);
+    loc[i].add(vel[i]);
   }
-   if(loc.y < loc2.y){
-    vel.y = -abs(vel.y);
-    vel2.y = abs(vel2.y); 
-   } else {
-     vel.y = abs(vel.y);
-     vel2.y = -abs(vel2.y);
-   }
-  }
+  
+  //check to see if circles are touching
+  for(int j = 0; j < count; j++){
+   if(i != j){
+     if(loc[i].dist(loc[j]) < sz[i]/2 + sz[j]/2){
+      print("COLLISION DETECTED   ");
+       if(loc[i].x < loc[j].x){
+        vel[i].x = -abs(vel[i].x);
+        vel[j].x = abs(vel[j].x); 
+       } else {
+        vel[i].x = abs(vel[i].x);
+        vel[j].x = -abs(vel[j].x); 
+       }
+       if(loc[i].y < loc[j].y){
+        vel[i].y = -abs(vel[i].y);
+        vel[j].y = abs(vel[j].y);
+       } else {
+        vel[i].y = abs(vel[i].y);
+        vel[j].y = -abs(vel[j].y); 
+       }
+     }
+   }  
+  }  
+  
   //draw the ball
   fill(255,0,0);
   ellipse(loc.x, loc.y, sz, sz);
