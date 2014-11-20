@@ -10,8 +10,8 @@ void setup() {
   loc = new PVector(width/2, height/2);
   vel = PVector.random2D();
   acc = new PVector(0, 0);
-  loc2 = new PVector(width*.25, height*.25);
-  vel2 = new PVector.random2D();
+  loc2 = new PVector(width *.25, height *.25);
+  vel2 = PVector.random2D();
   acc2 = new PVector(0,0);
 }
 
@@ -25,16 +25,27 @@ void draw() {
   vel2.add(acc2);
   loc2.add(vel2);
 
-  //check to see if mouse is inside the circle
-  if (loc.dist(mouse) < sz/2) {
-    fill(255, 0, 0);
-    vel.mult(-1);
+  //check to see if the circles are touching
+  if (loc.dist(loc2) < sz/2 + sz2/2) {
+    if(loc.x < loc2.x){
+    vel.x = -abs(vel.x);
+    vel2.x = abs(vel2.x);
   } else {
-    fill(0, 255, 0);
+    vel.x = abs(vel.x);
+    vel2.x = -abs(vel2.x);
   }
-
+   if(loc.y < loc2.y){
+    vel.y = -abs(vel.y);
+    vel2.y = abs(vel2.y); 
+   } else {
+     vel.y = abs(vel.y);
+     vel2.y = -abs(vel2.y);
+   }
+  }
   //draw the ball
+  fill(255,0,0);
   ellipse(loc.x, loc.y, sz, sz);
+  ellipse(loc2.x, loc2.y, sz2, sz2);
 
   //bounce the ball
   if (loc.x + sz/2 > width || loc.x - sz/2 < 0) {
@@ -43,9 +54,14 @@ void draw() {
   if (loc.y + sz/2 > height || loc.y - sz/2 < 0) {
     vel.y *= -1;
   }
+  if(loc2.x + sz2/2 > width || loc2.x - sz2/2 < 0){
+   vel2.x *= -1;
+  }
+  if(loc2.y + sz2/2 > height || loc2.y - sz2/2 < 0){
+   vel2.y *= -1; 
+  }
 
-  //draw a small circle to indicate mouse location
-  fill(200, 150, 0);
-  ellipse(mouse.x, mouse.y, 15, 15);
+
+
 }
 
