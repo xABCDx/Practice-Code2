@@ -5,7 +5,7 @@ PVector[] acc = new PVector[count];
 float[] sz = new float[count];
 float[] mass = new float[count];
 int minDiam = 5;
-int maxDiam = 50;
+int maxDiam = 30;
 
 
 void setup() {
@@ -57,7 +57,7 @@ void draw() {
      }
     }
     //draw the ball
-    fill(255, 0, 0);
+    fill(255,0,0);
     ellipse(loc[i].x, loc[i].y, sz[i], sz[i]);
 
 
