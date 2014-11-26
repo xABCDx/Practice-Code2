@@ -9,7 +9,7 @@ void setup(){
  //initialize variables
 for(int i = 0; i < count; i++){
  sz[i] = random(2,7);
- loc[i] = new PVector(random(width), random(height -sz[i]/2);
+ loc[i] = new PVector(random(width), random(-height -sz[i]/2));
  vel[i] = new PVector(0, random(1));
  acc[i] = new PVector(0, .01);
 } 
@@ -31,7 +31,7 @@ void draw(){
    acc[i].x = random(-.1, .1);
    //restart snowflake
    if(loc[i].y - sz[i]/2 > height){
-    loc[i].serte(random(width), random(-height, -sz[i]/2));
+    loc[i].set(random(width), random(-height, -sz[i]/2));
    vel[i].set(0,1); 
    }
   }
