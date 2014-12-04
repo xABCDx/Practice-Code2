@@ -50,7 +50,7 @@ class GravityBall {
   GravityBall(float tempx, float tempsz){
    sz = tempsz;
   loc = new PVector(tempx, sz);
-  vel = new PVector(0, 0 );
+  vel = new PVector(0, 0);
   acc = new PVector(0, .1);
   hue = random(360);
   sat = 100;
