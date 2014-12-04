@@ -1,30 +1,36 @@
-Ball b;    //declare a new object of the Ball class
-
-
+Bouncer[] bouncers = new Bouncer[100];
 void setup() {
   size(800, 600);
-  b = new Ball();    //initialize our new ball called b
+  for (int i = 0; i < bouncers.length; i++) {
+    bouncers[i] = new Bouncer(random(5, 50), random(.5, 10));
+  }
 }
 
 void draw() {
   background(0);
-  b.move();
-  b.bounce();
-  b.display();
+  for (int i = 0; i < bouncers.length; i++) {
+    bouncers[i].display();
+    bouncers[i].move();
+    bouncers[i].wallBounce();
+    for (int j = 0; j < bouncers.length; j++) {
+      if (i!=j) {
+        bouncers[i].collideWith(bouncers[j]);
+      }
+    }
+  }
 }
 
-////////////////////////////////////////////////////
-// Below this is the definition of the Ball class //
-////////////////////////////////////////////////////
-class Ball {
-  //these are the properties of our Ball class
-  float sz;
+class Bouncer {
   PVector loc, vel;
+  float sz;
+  float speed;
 
-  Ball() {
-    sz = 50;
-    loc = new PVector(width/2, height/2);
+  Bouncer(float tempsz, float tempspeed) {
+    sz = tempsz;
+    loc = new PVector(random(sz, width-sz), random(sz, height-sz));
     vel = PVector.random2D();
+    speed = tempspeed;
+    vel.mult(speed);
   }
 
   void display() {
@@ -35,12 +41,22 @@ class Ball {
     loc.add(vel);
   }
 
-  void bounce() {
+  void wallBounce() {
     if (loc.x + sz/2 > width || loc.x - sz/2 < 0) {
       vel.x *= -1;
-    }
+    } 
     if (loc.y + sz/2 > height || loc.y - sz/2 < 0) {
       vel.y *= -1;
+    }
+  }
+
+  void collideWith(Bouncer someOtherBall) {
+    //to make the balls bounce off each other, check the distance between their centers
+    //if the distance is less than the sum of their radii, they're touching and should bounce
+    if (loc.dist(someOtherBall.loc) < sz/2 + someOtherBall.sz/2) {
+      vel = PVector.sub(loc, someOtherBall.loc);
+      vel.normalize();
+      vel.setMag(speed);
     }
   }
 }
