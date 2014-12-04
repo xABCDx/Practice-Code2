@@ -1,5 +1,7 @@
-Bouncer[] bouncers = new Bouncer[100];
+Bouncer[] bouncers = new Bouncer[50];
+
 void setup() {
+  colorMode(HSB, 360, 100, 100, 100);
   size(800, 600);
   for (int i = 0; i < bouncers.length; i++) {
     bouncers[i] = new Bouncer(random(5, 50), random(.5, 10));
@@ -34,6 +36,7 @@ class Bouncer {
   }
 
   void display() {
+    fill(203, 100, 100, 70);
     ellipse(loc.x, loc.y, sz, sz);
   }
 
